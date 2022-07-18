@@ -32,37 +32,12 @@ function calcularCuota() {
 
 const cart = [];
 
-function addToCart(product) {
-    cart.push(product);
+function addToCart(product, qty) {
+    if(product.stock >= qty){
+        cart.push(product);
+        product.stock= product.stock - qty;
+    }
 }
-console.log(JSON.parse(JSON.stringify(cart)))
-addToCart({
-    name: "product 1",
-    price: 500,
-    stock: 10,
-    id: 1111,
-    color: "black",
-    qty: 1
-})
-console.log(JSON.parse(JSON.stringify(cart)))
-addToCart({
-    name: "product 2",
-    price: 200,
-    stock: 5,
-    id: 2222,
-    color: "white",
-    qty: 1
-})
-console.log(JSON.parse(JSON.stringify(cart)))
-addToCart({
-    name: "product 3",
-    price: 100,
-    stock: 30,
-    id: 3333,
-    color: "green",
-    qty: 1
-})
-console.log(JSON.parse(JSON.stringify(cart)))
 
 function deleteItemFromCart(productID) {
     const index = cart.findIndex((product) => product.id === productID);
@@ -70,9 +45,6 @@ function deleteItemFromCart(productID) {
         cart.splice(index, 1);
     }
 }
-
-deleteItemFromCart(1111);
-console.log(JSON.parse(JSON.stringify(cart)))
 
 function changeProductQty(productID, qty) {
     const index = cart.findIndex((product) => product.id === productID);
@@ -85,10 +57,49 @@ function changeProductQty(productID, qty) {
     }
 }
 
+console.log(JSON.parse(JSON.stringify(cart)))
+
+addToCart({
+    name: "product 1",
+    price: 500,
+    stock: 10,
+    id: 1111,
+    color: "black",
+    qty: 1
+},3)
+
+console.log(JSON.parse(JSON.stringify(cart)))
+
+addToCart({
+    name: "product 2",
+    price: 200,
+    stock: 5,
+    id: 2222,
+    color: "white",
+    qty: 1
+},2)
+
+console.log(JSON.parse(JSON.stringify(cart)))
+
+addToCart({
+    name: "product 3",
+    price: 100,
+    stock: 30,
+    id: 3333,
+    color: "green",
+    qty: 1
+},4)
+
+console.log(JSON.parse(JSON.stringify(cart)))
+
+deleteItemFromCart(1111);
+
+console.log(JSON.parse(JSON.stringify(cart)))
 
 changeProductQty(2222, 10);
+
 console.log(JSON.parse(JSON.stringify(cart)))
 
-changeProductQty(2222,0)
-console.log(JSON.parse(JSON.stringify(cart)))
+changeProductQty(2222, 0)
 
+console.log(JSON.parse(JSON.stringify(cart)))
