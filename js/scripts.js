@@ -30,76 +30,87 @@ function calcularCuota() {
     return null;
 }
 
-const cart = [];
+//array de cart items
+const cart = new Array();
 
+//stock de productos
+let stock = new Map();
+stock.set(1, 500)
+stock.set(2, 500)
+stock.set(3, 500)
+
+function Product(name, price, id, color) {
+    this.name = name;
+    this.price = price;
+    this.id = id;
+    this.color = color;
+}
+
+class CartItem {
+    constructor(product, qty) {
+        this.product = product;
+        this.qty = qty;
+    }
+}
+
+//agregar condicion de si el producto ya se encuentra en el carrito
 function addToCart(product, qty) {
-    if(product.stock >= qty){
-        cart.push(product);
-        product.stock= product.stock - qty;
+    if (stock.get(product.id) >= qty) {
+        cart.push(new CartItem(product, qty));
+        stock.set(product.id, stock.get(product.id) - qty);
     }
 }
 
 function deleteItemFromCart(productID) {
-    const index = cart.findIndex((product) => product.id === productID);
+    const index = cart.findIndex((x) => x.product.id == productID);
     if (index !== -1) {
+        stock.set(productID, stock.get(productID) + cart[index].qty);
         cart.splice(index, 1);
+    } else {
+        alert("El producto no se encuentra en el carrito")
     }
 }
 
 function changeProductQty(productID, qty) {
-    const index = cart.findIndex((product) => product.id === productID);
-    if (index !== -1 && qty > 0) {
-        cart[index].qty = qty;
-    } else {
-        if (qty === 0) {
-            deleteItemFromCart(productID)
+    const index = cart.findIndex((item) => item.product.id === productID);
+    if (index !== -1) {
+        if (qty == 0) {
+            cart.splice(index, 1);
+        } else {
+            cart[index].qty = qty;
         }
+    } else {
+        alert("el producto no existe en el carrito")
     }
+
 }
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-addToCart({
-    name: "product 1",
-    price: 500,
-    stock: 10,
-    id: 1111,
-    color: "black",
-    qty: 1
-},3)
+const product1 = new Product("product1", 500, 1, "black");
+const product2 = new Product("product2", 200, 2, "white");
+const product3 = new Product("product3", 100, 3, "green");
+
+addToCart(product1, 3)
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-addToCart({
-    name: "product 2",
-    price: 200,
-    stock: 5,
-    id: 2222,
-    color: "white",
-    qty: 1
-},2)
+addToCart(product2, 2)
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-addToCart({
-    name: "product 3",
-    price: 100,
-    stock: 30,
-    id: 3333,
-    color: "green",
-    qty: 1
-},4)
+addToCart(product3, 4)
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-deleteItemFromCart(1111);
+deleteItemFromCart(1);
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-changeProductQty(2222, 10);
+changeProductQty(2, 10);
 
 console.log(JSON.parse(JSON.stringify(cart)))
 
-changeProductQty(2222, 0)
+changeProductQty(2, 0)
 
 console.log(JSON.parse(JSON.stringify(cart)))
