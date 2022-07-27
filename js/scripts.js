@@ -31,20 +31,24 @@ function calcularCuota() {
 }
 
 //array de cart items
+// forEach()  find() filter() some() map()  reduce() sort()
 const cart = new Array();
 
-//stock de productos
-let stock = new Map();
-stock.set(1, 500)
-stock.set(2, 500)
-stock.set(3, 500)
-
-function Product(name, price, id, color) {
-    this.name = name;
-    this.price = price;
-    this.id = id;
-    this.color = color;
+class Product {
+    constructor(name, price, id, color, stock) {
+        this.name = name;
+        this.price = price;
+        this.id = id;
+        this.color = color;
+        this.stock = stock;
+    }
 }
+
+const catalogoProductos= new Array[
+    new Product("product1", 500, 1, "black",10),
+    new Product("product2", 200, 2, "white",10),
+    new Product("product3", 100, 3, "green",10)];
+
 
 class CartItem {
     constructor(product, qty) {
@@ -55,14 +59,14 @@ class CartItem {
 
 //agregar condicion de si el producto ya se encuentra en el carrito
 function addToCart(product, qty) {
-    if (stock.get(product.id) >= qty) {
+    if (product.stock >= qty) {
         cart.push(new CartItem(product, qty));
-        stock.set(product.id, stock.get(product.id) - qty);
+        product.stock -= qty;
     }
 }
 
 function deleteItemFromCart(productID) {
-    const index = cart.findIndex((x) => x.product.id == productID);
+    const index = cart.findIndex((cartItem) => cartItem.product.id == productID);
     if (index !== -1) {
         stock.set(productID, stock.get(productID) + cart[index].qty);
         cart.splice(index, 1);
@@ -72,7 +76,7 @@ function deleteItemFromCart(productID) {
 }
 
 function changeProductQty(productID, qty) {
-    const index = cart.findIndex((item) => item.product.id === productID);
+    const index = cart.findIndex((cartItem) => cartItem.product.id === productID);
     if (index !== -1) {
         if (qty == 0) {
             cart.splice(index, 1);
@@ -86,10 +90,6 @@ function changeProductQty(productID, qty) {
 }
 
 console.log(JSON.parse(JSON.stringify(cart)))
-
-const product1 = new Product("product1", 500, 1, "black");
-const product2 = new Product("product2", 200, 2, "white");
-const product3 = new Product("product3", 100, 3, "green");
 
 addToCart(product1, 3)
 
