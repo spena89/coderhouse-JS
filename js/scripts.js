@@ -44,11 +44,11 @@ class Product {
     }
 }
 
-const catalogoProductos= new Array[
-    new Product("product1", 500, 1, "black",10),
-    new Product("product2", 200, 2, "white",10),
-    new Product("product3", 100, 3, "green",10)];
+const product1 = new Product("product1", 500, 1, "black",10)
+const product2 = new Product("product2", 200, 2, "white",10)
+const product3 = new Product("product3", 100, 3, "green",10)
 
+const catalogoProductos = [product1, product2, product3]
 
 class CartItem {
     constructor(product, qty) {
@@ -61,14 +61,18 @@ class CartItem {
 function addToCart(product, qty) {
     if (product.stock >= qty) {
         cart.push(new CartItem(product, qty));
-        product.stock -= qty;
+        product.stock =- qty;
     }
 }
 
 function deleteItemFromCart(productID) {
     const index = cart.findIndex((cartItem) => cartItem.product.id == productID);
+    console.log(index);
+    
     if (index !== -1) {
-        stock.set(productID, stock.get(productID) + cart[index].qty);
+        const cartItem = cart[index];
+        cartItem.product.stock =+ cartItem.qty
+        cartItem.qty = 0; 
         cart.splice(index, 1);
     } else {
         alert("El producto no se encuentra en el carrito")
@@ -78,10 +82,14 @@ function deleteItemFromCart(productID) {
 function changeProductQty(productID, qty) {
     const index = cart.findIndex((cartItem) => cartItem.product.id === productID);
     if (index !== -1) {
+        const cartItem = cart[index];
         if (qty == 0) {
+            cartItem.qty = 0;
             cart.splice(index, 1);
         } else {
-            cart[index].qty = qty;
+            const difference = cartItem.qty - qty;
+            cartItem.qty = qty;
+            cartItem.product.stock =+ difference 
         }
     } else {
         alert("el producto no existe en el carrito")
