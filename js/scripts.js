@@ -127,7 +127,7 @@ const contenedorProductos = document.getElementById("contenedorProductos")
 //creador de cards
 let cardsCreator = ``
 catalogoProductos.forEach(product => {
-    acumulador += `
+    cardsCreator += `
     <div class="col-md-4 my-4">
         <div class="card" style="width: 18rem;">
         <img src=${product.img} class="card-img-top" alt="...">
@@ -139,14 +139,12 @@ catalogoProductos.forEach(product => {
             <a href="#" class="btn btn-primary">Agregar al Carrito</a>
         </div>
     </div>
-    </div>`
+    </div>
+    `
 })
 
 contenedorProductos.innerHTML = cardsCreator
-
-
 /*  testeo de funciones
-
 console.log(JSON.parse(JSON.stringify(cart)))
 addToCart
  * (product1, 3)
