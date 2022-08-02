@@ -88,6 +88,7 @@ function addToCart(product, qty) {
     if (product.stock >= qty) {
         cart.push(new CartItem(product, qty));
         product.stock -= qty;
+        alert(`agregaste ${product.name} al carrito`)
     }
 }
 
@@ -127,7 +128,8 @@ const contenedorProductos = document.getElementById("contenedorProductos")
 //creador de cards
 let cardsCreator = ``
 catalogoProductos.forEach(product => {
-    cardsCreator += `
+    const idBtn = `AddToCart${product.id}`
+    contenedorProductos.innerHTML += `
     <div class="col-md-4 my-4">
         <div class="card" style="width: 18rem;">
         <img src=${product.img} class="card-img-top" alt="...">
@@ -136,14 +138,21 @@ catalogoProductos.forEach(product => {
             <p class="card-text">${product.description}</p>
             <p class="card-text color-succes">$${product.price}</p>
             <p class="card-text">Quedan: ${product.stock} disponibles!</p>
-            <a href="#" class="btn btn-primary">Agregar al Carrito</a>
+            <a href="#" class="btn btn-primary" id=${idBtn}>Agregar al Carrito</a>
         </div>
     </div>
     </div>
     `
 })
 
-contenedorProductos.innerHTML = cardsCreator
+catalogoProductos.forEach((product) => {
+    const idBtn = `AddToCart${product.id}`
+    document.getElementById(idBtn).addEventListener("click", ()=>{ 
+        addToCart(product,1)
+console.log(cart)
+    })
+})
+
 /*  testeo de funciones
 console.log(JSON.parse(JSON.stringify(cart)))
 addToCart
