@@ -1,3 +1,7 @@
+const cart = JSON.parse(localStorage.getItem("cart")) ?? []
+const total = cart.reduce((acumulator, product) => acumulator + product.price, 0)
+document.getElementById("cartTotal").innerHTML =  cart.length + "- $"+total
+
 function calcularCuota() {
     let salir = false;
     let monto;
@@ -31,7 +35,7 @@ function calcularCuota() {
 }
 
 //array de cart items forEach()  find() filter() some() map()  reduce() sort()
-const cart = new Array();
+//const cart = new Array();
 
 class Product {
     constructor(name, img, price, description, id, color, stock) {
@@ -88,7 +92,10 @@ function addToCart(product, qty) {
     if (product.stock >= qty) {
         cart.push(new CartItem(product, qty));
         product.stock -= qty;
-        alert(`agregaste ${product.name} al carrito`)
+        localStorage.setItem("cart",JSON.stringify(cart))
+        const total = cart.reduce((acumulator, product) => acumulator + product.price, 0)
+        document.getElementById("cartTotal").innerHTML =  cart.length + "- $"+total
+        
     }
 }
 
@@ -138,7 +145,7 @@ catalogoProductos.forEach(product => {
             <p class="card-text">${product.description}</p>
             <p class="card-text color-succes">$${product.price}</p>
             <p class="card-text">Quedan: ${product.stock} disponibles!</p>
-            <a href="#" class="btn btn-primary" id=${idBtn}>Agregar al Carrito</a>
+            <button class="btn btn-primary" id=${idBtn}>Agregar al Carrito</button>
         </div>
     </div>
     </div>
@@ -149,7 +156,9 @@ catalogoProductos.forEach((product) => {
     const idBtn = `AddToCart${product.id}`
     document.getElementById(idBtn).addEventListener("click", ()=>{ 
         addToCart(product,1)
+        
 console.log(cart)
+console.log(total)
     })
 })
 
