@@ -1,6 +1,6 @@
 let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
 
-/// CLASSES ///
+/// CLASSES /
 class Product {
     constructor(name, img, price, description, id, color, stock) {
         this.name = name;
@@ -20,14 +20,19 @@ class CartItem {
     }
 }
 
-/// CART FUNCTIONS ///
+/// CART FUNCTIONS /
 function addToCart(product, qty) {
     // falta implementar si item existe en carrito
     if (product.stock >= qty) {
-        cart.push(new CartItem(product, qty));
+        let index = cart.findIndex(object => {
+            return object.product.id === product.id;
+        });
+        //if ternario
+        index != -1 ? cart[index].qty += qty : cart.push(new CartItem(product, qty));
+
         product.stock -= qty;
         localStorage.setItem("cart", JSON.stringify(cart));
-    }else{
+    } else {
         alert("no queda más stock")
     }
     updateCartInfo();
@@ -51,11 +56,40 @@ function deleteItemFromCart(productID) {
 function emptyCart() {
     console.log("called empty cart");
     cart = [];
-    document.getElementById("cartTotal").innerHTML = "empty";
+    document
+        .getElementById("cartTotal")
+        .innerHTML = "empty";
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-/// HTML FUNCTIONS ///
+/// HTML FUNCTIONS /
+
+function generateCartElements() {
+    let modal = document.getElementById("cardsModal")
+    modal.innerHTML = ``
+    cart.forEach((cartItem) => {
+        let item = document.createElement("tr")
+        item.innerHTML = `
+            <th scope = "row">-  ${cartItem
+            .product
+            .id} </th>
+            <td>-  ${cartItem
+            .product
+            .name} </td>
+            <td>- <img style="width: 50px" src="${cartItem
+            .product
+            .img}"> </td>
+            <td> - ${cartItem
+            .product
+            .price} </td>
+            <td> - ${cartItem
+            .qty} </td>
+            <td><button class ="btn-warning"> delete </button></td>
+            `
+            modal
+            .append(item)
+    })
+}
 
 function populateContainer() {
     const contenedorProductos = document.getElementById("contenedorProductos");
@@ -83,11 +117,15 @@ function populateContainer() {
 function prepareButtons() {
     productsCatalog.forEach((product) => {
         const idBtn = `AddToCart${product.id}`;
-        document.getElementById(idBtn).addEventListener("click", () => {
+        document
+            .getElementById(idBtn)
+            .addEventListener("click", () => {
                 addToCart(product, 1);
             });
     });
-    document.getElementById("emptyCart").addEventListener("click", () => {
+    document
+        .getElementById("emptyCart")
+        .addEventListener("click", () => {
             emptyCart();
         });
 }
@@ -100,11 +138,19 @@ function updateContainer() {
 
 function updateCartInfo() {
     const total = cart.reduce(
-        (acumulator, cartItem) => acumulator + cartItem.product.price,0);
-    document.getElementById("cartTotal").innerHTML = cart.length + "- $" + total;
+        (acumulator, cartItem) => acumulator + cartItem.product.price,
+        0
+    );
+    let qty = 0
+    cart.forEach((cartItem) => {
+        qty += cartItem.qty
+    })
+    document
+        .getElementById("cartTotal")
+        .innerHTML = qty.toString() + "- $" + total;
 }
 
-/// CATALOG PRODUCTS ///
+/// PRODUCTS CATALOG  /
 
 const product1 = new Product(
     "Nvidia RTX 3080",
@@ -138,7 +184,7 @@ const product3 = new Product(
 
 const productsCatalog = [product1, product2, product3];
 
-/// INITIALIZE SITE ///
+/// INITIALIZE SITE /
 
 updateContainer();
 updateCartInfo();

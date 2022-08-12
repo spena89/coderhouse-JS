@@ -17,6 +17,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet"/>
     </head>
+
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -61,13 +62,40 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                        <button
+                            class="btn btn-outline-dark"
+                            type="submit"
+                            onclick="generateCartElements()"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">
                             <i class="bi-cart-fill me-1"></i>
                             Cart
                             <span id="cartTotal" class="badge bg-dark text-white ms-1 rounded-pill">empty</span>
                         </button>
-                    </form>
+                        <!-- Modal -->
+                        <div
+                            class="modal fade"
+                            id="exampleModal"
+                            tabindex="-1"
+                            aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button
+                                            type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" id="cardsModal"></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <form class="d-flex">
                         <button id="emptyCart" class="btn btn-outline-dark" type="submit">
                             <span class="text-white rounded-pill">🗑️</span>
@@ -92,10 +120,20 @@
             </div>
             <hr/>
             <div class="container">
-                <div class="row" id="contenedorProductos">
-                </div>
+                <div class="row" id="contenedorProductos"></div>
             </div>
         </div>
+    </section>
+
+    <section>
+        Button trigger modal
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal">
+            Launch demo modal
+        </button>
     </section>
     <!-- Footer-->
     <footer class="py-5 bg-dark">
