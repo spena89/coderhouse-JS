@@ -27,7 +27,7 @@ function addToCart(product, qty) {
         let index = cart.findIndex(object => {
             return object.product.id === product.id;
         });
-        //if ternario
+        //if ternario. Si item existe en carrito --> aumentar qty. Sino agregar al carrito
         index != -1 ? cart[index].qty += qty : cart.push(new CartItem(product, qty));
 
         product.stock -= qty;
@@ -39,26 +39,27 @@ function addToCart(product, qty) {
     updateContainer();
 }
 
-function deleteItemFromCart(productID) {
+function deleteItemFromCart() {
     // TODO: update HTML
-    const index = cart.findIndex((cartItem) => cartItem.product.id == productID);
-    console.log(index);
+    let index = cart.findIndex(object => {
+        return object.product.id === parseInt(this.parentElement.parentElement.id);
+    })
     if (index !== -1) {
+        this.parentElement.parentElement.remove()
         const cartItem = cart[index];
         cartItem.product.stock += cartItem.qty;
         cartItem.qty = 0;
         cart.splice(index, 1);
+        updateCartInfo();
+        updateContainer();
     } else {
         alert("El producto no se encuentra en el carrito");
     }
 }
 
 function emptyCart() {
-    console.log("called empty cart");
     cart = [];
-    document
-        .getElementById("cartTotal")
-        .innerHTML = "empty";
+    document.getElementById("cartTotal").innerHTML = "empty";
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
@@ -69,6 +70,7 @@ function generateCartElements() {
     modal.innerHTML = ``
     cart.forEach((cartItem) => {
         let item = document.createElement("tr")
+        item.setAttribute("id",cartItem.product.id.toString())
         item.innerHTML = `
             <th scope = "row">-  ${cartItem
             .product
@@ -84,10 +86,10 @@ function generateCartElements() {
             .price} </td>
             <td> - ${cartItem
             .qty} </td>
-            <td><button class ="btn-warning"> delete </button></td>
+            <td><button class ="btn-danger"> delete </button></td>
             `
-            modal
-            .append(item)
+            item.getElementsByClassName("btn-danger")[0].addEventListener('click', deleteItemFromCart, false)
+            modal.append(item)
     })
 }
 
