@@ -1,4 +1,5 @@
 let cart = JSON.parse(localStorage.getItem("cart")) ?? [];
+let productsCatalog = []
 
 class CartItem {
     constructor(product, qty) {
@@ -29,7 +30,6 @@ function addToCart(product, qty) {
 }
 
 function deleteItemFromCart() {
-    // TODO: update HTML
     let index = cart.findIndex(object => {
         return object.product.id === parseInt(this.parentElement.parentElement.id);
     })
@@ -72,8 +72,8 @@ function generateCartElements() {
             <td class = "product-table">${parseInt(cartItem.qty * cartItem.product.price)} </td>
             <td><button class ="btn-danger"> delete </button></td>
             `
-            item.getElementsByClassName("btn-danger")[0].addEventListener('click', deleteItemFromCart, false)
-            modal.append(item)
+    item.getElementsByClassName("btn-danger")[0].addEventListener('click', deleteItemFromCart, false)
+    modal.append(item)
     })
 }
 
@@ -81,27 +81,23 @@ function generateCartElements() {
 function populateContainer() {
     const contenedorProductos = document.getElementById("contenedorProductos");
     contenedorProductos.innerHTML = "";
-    fetch("Products.json")
-    .then((response) => response.json())
-    .then(productsCatalog => {
-        productsCatalog.forEach((product) => {
-            const idBtn = `AddToCart${product.id}`;
-            contenedorProductos.innerHTML += `
-                <div class="col-md-4 my-4">
-                    <div class="card" style="width: 18rem;">
-                        <img src=${product.img} class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">${product.name}</h5>
-                            <p class="card-text">${product.description}</p>
-                            <p class="card-text color-succes">$${product.price}</p>
-                            <p class="card-text">Quedan: ${product.stock} disponibles!</p>
-                            <button class="btn btn-primary" id=${idBtn}>Agregar al Carrito</button>
-                        </div>
+    productsCatalog.forEach((product) => {
+        const idBtn = `AddToCart${product.id}`;
+        contenedorProductos.innerHTML += `
+            <div class="col-md-4 my-4">
+                <div class="card" style="width: 18rem;">
+                    <img src=${product.img} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description}</p>
+                        <p class="card-text color-succes">$${product.price}</p>
+                        <p class="card-text">Quedan: ${product.stock} disponibles!</p>
+                        <button class="btn btn-primary" id=${idBtn}>Agregar al Carrito</button>
                     </div>
                 </div>
-            `;
-        });
-    })
+            </div>
+        `;
+    });
 }
 
 //Add to cart button functionality
@@ -125,22 +121,16 @@ function payButtonSuccess(){
     }
 
 function prepareButtons() {
-    fetch("Products.json")
-    .then((response) => response.json())
-    .then(productsCatalog => {
-        productsCatalog.forEach((product) => {
-            const idBtn = `AddToCart${product.id}`;
-            document.getElementById(idBtn).addEventListener("click", () => {
-                addToCart(product, 1);
-            });
-        })
-    });
+    productsCatalog.forEach((product) => {
+        const idBtn = `AddToCart${product.id}`;
+        document.getElementById(idBtn).addEventListener("click", () => {
+            addToCart(product, 1);
+        });
+    })
     document.getElementById("emptyCart").addEventListener("click", () => {
             emptyCart();
-        });        
-    
+        });
     }
-
 //updates stock visible by users on HTML
 function updateContainer() {
     populateContainer();
@@ -164,9 +154,18 @@ function updateCartInfo() {
 
 }
 
+async function fetchProducts(){
+    await fetch("Products.json")
+    .then((response) => response.json())
+    .then(catalog => {
+        productsCatalog = catalog
+    })
+}
 
-/// INITIALIZE SITE /
+/// INITIALIZE SITE ///
 
-updateContainer();
-updateCartInfo();
-payButtonSuccess();
+fetchProducts().then(() => {
+    updateContainer();
+    updateCartInfo();
+    payButtonSuccess();
+});
