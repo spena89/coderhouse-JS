@@ -1,0 +1,26 @@
+[
+    {
+        "name":"Nvidia RTX 3080",
+        "img":"https://ddtech.mx/assets/uploads/07b9dd6cc5f40598fabc9546c27712b5.png",
+        "price":1500,
+        "description":"High end graphics card",
+        "id":1, 
+        "stock":10
+    },
+    {
+        "name":"Nvidia RTX 3070",
+        "img":"https://as01.epimg.net/meristation/imagenes/2020/11/04/reportajes/1604481781_248646_1604481912_noticia_normal.jpg",
+        "price":1200,
+        "description":"High performing mid-range graphics card",
+        "id":2, 
+        "stock":10
+    },
+    {
+        "name":"Nvidia RTX 3060",
+        "img":"https://thotcomputacion.com.uy/wp-content/uploads/2021/03/12G-P5-3657-KR_LG_1629_7b1e27934adb49418cd71fa64f868981.png",
+        "price":1000,
+        "description":"Best bang for the buck graphics card mid-tier",
+        "id":3, 
+        "stock":10
+    }
+]
