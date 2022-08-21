@@ -91,8 +91,8 @@ function populateContainer() {
                         <h5 class="card-title">${product.name}</h5>
                         <p class="card-text">${product.description}</p>
                         <p class="card-text color-succes">$${product.price}</p>
-                        <p class="card-text">Quedan: ${product.stock} disponibles!</p>
-                        <button class="btn btn-primary" id=${idBtn}>Agregar al Carrito</button>
+                        <p class="card-text">${product.stock} left in stock!</p>
+                        <button class="btn btn-primary" id=${idBtn}>Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -100,6 +100,9 @@ function populateContainer() {
     });
 }
 
+function validateStock (){
+    const idBtn = document.getElementById("AddToCart")
+}
 //Add to cart button functionality
 function payButtonSuccess(){
     document.getElementById("payButton").addEventListener("click", () =>{

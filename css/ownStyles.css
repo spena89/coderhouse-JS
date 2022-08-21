@@ -7,5 +7,13 @@
 }
 
 .cart-img{
-    width: 50px;
+    width: 100px;
+    padding: 1em;
+}
+
+.card-img-top{
+    height: 15em;
+    width: 15em;
+    margin: auto;
+    padding: 1em;
 }

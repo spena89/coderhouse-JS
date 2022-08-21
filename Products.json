@@ -5,15 +5,15 @@
         "price":1500,
         "description":"High end graphics card",
         "id":1, 
-        "stock":10
+        "stock":2
     },
     {
         "name":"Nvidia RTX 3070",
-        "img":"https://as01.epimg.net/meristation/imagenes/2020/11/04/reportajes/1604481781_248646_1604481912_noticia_normal.jpg",
+        "img":"https://m.media-amazon.com/images/I/81d0pk3xOiS._AC_SL1500_.jpg",
         "price":1200,
         "description":"High performing mid-range graphics card",
         "id":2, 
-        "stock":10
+        "stock":8
     },
     {
         "name":"Nvidia RTX 3060",
@@ -22,5 +22,16 @@
         "description":"Best bang for the buck graphics card mid-tier",
         "id":3, 
         "stock":10
+    },
+    {
+        "name":"Nvidia RTX 3050",
+        "img":"https://www.tranza.com/content/images/thumbs/0014729_gigabyte-geforce-rtx-3050-8gb-gv-n3050gaming-oc-8gd_600.png",
+        "price":920,
+        "description":"Entry level RTX graphics card",
+        "id":4, 
+        "stock":4
     }
+    
 ]
+
+
